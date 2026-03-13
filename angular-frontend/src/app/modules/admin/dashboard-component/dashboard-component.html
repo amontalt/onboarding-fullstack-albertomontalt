@@ -1,0 +1,110 @@
+<main class="mx-auto max-w-7xl px-4 py-10">
+  <div class="mb-6 flex items-center justify-between">
+    <h1 class="text-2xl font-semibold text-slate-900">
+      Panel de administración
+    </h1>
+    <button (click)="logout()" class="text-sm font-medium text-slate-500 hover:text-red-600 transition-colors">
+      Cerrar sesión
+    </button>
+  </div>
+
+  <section class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+    <form (ngSubmit)="create()" [formGroup]="form" class="grid grid-cols-1 gap-4 md:grid-cols-12 md:items-end">
+      <div class="md:col-span-4">
+        <label class="block text-sm font-medium text-slate-700">Email</label>
+        <input placeholder="email@empresa.com" formControlName="email" class="mt-1 h-10 w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+      </div>
+      <div class="md:col-span-3">
+        <label class="block text-sm font-medium text-slate-700">Contraseña</label>
+        <input placeholder="••••••••" type="password" formControlName="password" class="mt-1 h-10 w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+      </div>
+      <div class="md:col-span-3">
+        <label class="block text-sm font-medium text-slate-700">Nombre</label>
+        <input placeholder="Nombre" formControlName="nombre" class="mt-1 h-10 w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+      </div>
+      <div class="md:col-span-2">
+        <label class="block text-sm font-medium text-slate-700">Roles</label>
+        <select formControlName="roles" multiple class="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+          <option value="ROLE_USER">ROLE_USER</option>
+          <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+        </select>
+      </div>
+      <div class="md:col-span-12 flex justify-end">
+        <button type="submit" [disabled]="form.invalid" class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-5 text-sm font-medium text-white transition-colors hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+          Crear usuario
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <div *ngIf="tempPassword" class="mt-8 rounded-md bg-yellow-50 p-4 border border-yellow-200">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <svg class="h-5 w-5 text-yellow-400 mr-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+        </svg>
+        <p class="text-sm font-medium text-yellow-800">
+          Nueva contraseña temporal para <strong>{{ tempPassword.email }}</strong>:
+          <code class="ml-2 rounded bg-yellow-100 px-2 py-1 text-yellow-900 font-mono text-base border border-yellow-300">{{ tempPassword.password }}</code>
+        </p>
+      </div>
+      
+      <div class="flex items-center gap-3">
+        <span *ngIf="copiedSuccessfully" class="text-xs font-bold text-green-600 animate-pulse">¡Copiado!</span>
+        
+        <button (click)="copyToClipboard()" type="button" class="inline-flex items-center gap-1.5 rounded bg-yellow-100 px-3 py-1.5 text-xs font-semibold text-yellow-800 shadow-sm hover:bg-yellow-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600 transition-colors border border-yellow-300">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.56 2.25h-3.12a2.25 2.25 0 00-2.106 1.638m7.326 0c.166.016.332.032.498.05m-7.824 0C4.39 4.089 4 4.51 4 5.03v14.47c0 .52.39.94.902.99.166.018.332.036.5.053m14.294 0c.168-.017.334-.035.5-.053.512-.05.902-.47.902-.99V5.03c0-.52-.39-.94-.902-.99m-14.294 0c.166-.016.332-.032.498-.05m7.326 0c.166.016.332.032.498.05m-7.326 0a2.25 2.25 0 012.25-2.25h3.12a2.25 2.25 0 012.25 2.25m-6 9h6m-6 3h6m-6-6h.008v.008H12v-.008z" />
+          </svg>
+          Copiar
+        </button>
+        
+        <button (click)="clearTempPassword()" class="text-yellow-600 hover:text-yellow-800">
+          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8">
+    <input placeholder="Buscar usuario..." [(ngModel)]="q" (ngModelChange)="load()" class="h-10 w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 md:w-80" />
+  </div>
+
+  <div class="mt-4 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-slate-200">
+        <thead class="bg-slate-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">ID</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">Email</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">Roles</th>
+            <th class="px-4 py-3 text-right text-sm font-semibold text-slate-700">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200 bg-white">
+          <tr *ngFor="let u of users" class="hover:bg-slate-50 transition-colors">
+            <td class="px-4 py-3 text-sm text-slate-600">{{ u.id }}</td>
+            <td class="px-4 py-3 text-sm text-slate-900 font-medium">{{ u.email }}</td>
+            <td class="px-4 py-3 text-sm text-slate-600">
+              <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-800">
+                {{ u.roles.join(', ') }}
+              </span>
+            </td>
+            <td class="px-4 py-3 text-sm text-right">
+              <button type="button" (click)="resetPassword(u)" class="inline-flex items-center rounded border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1">
+                Reset password
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="users.length === 0">
+            <td colspan="4" class="px-4 py-8 text-center text-sm text-slate-500">
+              No se encontraron usuarios.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>

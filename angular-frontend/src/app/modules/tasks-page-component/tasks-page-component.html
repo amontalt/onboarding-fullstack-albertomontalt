@@ -1,0 +1,29 @@
+<main class="mx-auto min-h-screen max-w-7xl px-4 py-24 sm:px-8 sm:py-32 lg:px-16 transition-colors duration-300">
+  <app-back-to-landing-button class="mb-6 inline-flex lg:hidden text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"></app-back-to-landing-button>
+
+  <div class="flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
+    <app-page-title 
+      class="w-full text-slate-900 dark:text-white transition-colors duration-300" 
+      title="Gestión de Tareas" 
+      subtitle="Organiza y administra tus pendientes con un vistazo rápido.">
+    </app-page-title>
+    
+    <div class="flex items-center gap-4">
+      <button (click)="logout()" class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+        Cerrar sesión
+      </button>
+      <app-back-to-landing-button class="hidden lg:inline-flex text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"></app-back-to-landing-button>
+    </div>
+  </div>
+
+  <div class="mt-8 mb-10 max-w-2xl">
+    <app-task-form-component (submitted)="onTaskSubmitted($event)"></app-task-form-component>
+  </div>
+
+  <app-task-filters 
+    (apply)="onFiltersApply($event)" 
+    (reset)="onFiltersReset()">
+  </app-task-filters>
+
+  <app-task-list></app-task-list>
+</main>

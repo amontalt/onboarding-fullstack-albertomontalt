@@ -1,0 +1,82 @@
+<section class="mt-8">
+  @if ((loading$ | async)) {
+    <div class="flex justify-center py-12">
+      <div class="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-primary"></div>
+    </div>
+  }
+
+  @if ((error$ | async); as err) {
+    <div class="rounded-lg bg-red-50 p-4 text-sm text-red-600 border border-red-100">
+      {{ err }}
+    </div>
+  }
+
+  @if ((tasks$ | async); as tasks) {
+    @if (!tasks.length && !(loading$ | async)) {
+      <div class="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50/50 py-16 text-center">
+        <svg class="mb-4 h-12 w-12 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+        </svg>
+        <h3 class="text-sm font-semibold text-slate-900">Ninguna tarea encontrada</h3>
+        <p class="mt-1 text-sm text-slate-500">Comienza creando una nueva tarea o ajusta los filtros de búsqueda.</p>
+      </div>
+    }
+
+    @if (tasks.length) {
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        <article
+          *ngFor="let t of tasks"
+          class="flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+        >
+          <div class="space-y-3">
+            <h3 class="text-lg font-bold text-slate-800 line-clamp-2">{{ t.titulo }}</h3>
+            
+            <div class="flex items-center gap-2">
+              <span
+                class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold uppercase tracking-wider"
+                [ngClass]="{
+                  'bg-blue-50 text-blue-700 border border-blue-200/50': t.estado === 'en progreso',
+                  'bg-emerald-50 text-emerald-700 border border-emerald-200/50': t.estado === 'completada',
+                  'bg-amber-50 text-amber-700 border border-amber-200/50': t.estado === 'pendiente'
+                }"
+              >
+                {{ t.estado }}
+              </span>
+            </div>
+            
+            <p class="text-sm text-slate-500 font-medium flex items-center gap-1">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              {{ t.fechaLimite || 'Sin fecha límite' }}
+            </p>
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4">
+            <button
+              *ngIf="t.estado !== 'completada'"
+              (click)="updateTaskStatus(t, 'completada')"
+              class="inline-flex h-8 items-center justify-center rounded-md bg-emerald-50 px-3 text-xs font-bold text-emerald-700 transition-colors hover:bg-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 uppercase tracking-wide"
+            >
+              Completar
+            </button>
+
+            <button
+              *ngIf="t.estado === 'pendiente'"
+              (click)="updateTaskStatus(t, 'en progreso')"
+              class="inline-flex h-8 items-center justify-center rounded-md bg-blue-50 px-3 text-xs font-bold text-blue-700 transition-colors hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500/50 uppercase tracking-wide"
+            >
+              Iniciar
+            </button>
+
+            <button
+              (click)="deleteTask(t.id)"
+              class="ml-auto inline-flex h-8 items-center justify-center rounded-md text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500/50 px-2"
+              aria-label="Eliminar tarea"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            </button>
+          </div>
+        </article>
+      </div>
+    }
+  }
+</section>

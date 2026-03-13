@@ -1,0 +1,68 @@
+<form (ngSubmit)="onApply()" [formGroup]="form" class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-4 bg-slate-50 dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors duration-300 shadow-sm">
+  <div class="md:col-span-2">
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Buscar</label>
+    <input 
+      type="text" 
+      formControlName="texto" 
+      class="mt-1 h-10 w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 shadow-sm placeholder-slate-400 dark:placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors" 
+      placeholder="Título o descripción" 
+    />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Estado</label>
+    <select 
+      formControlName="estado" 
+      class="mt-1 h-10 w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+    >
+      <option value="">Todos</option>
+      <option value="pendiente">Pendiente</option>
+      <option value="en progreso">En progreso</option>
+      <option value="completada">Completada</option>
+    </select>
+  </div>
+
+  <div class="flex items-end pb-2">
+    <label class="inline-flex h-10 items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 cursor-pointer">
+      <input 
+        type="checkbox" 
+        formControlName="mostrarSoloPendientes" 
+        class="h-4 w-4 rounded border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-primary focus:ring-2 focus:ring-primary/50 transition-colors cursor-pointer" 
+      /> 
+      Solo pendientes
+    </label>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Desde</label>
+    <input 
+      type="date" 
+      formControlName="fechaDesde" 
+      class="mt-1 h-10 w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors" 
+    />
+  </div>
+  <div>
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Hasta</label>
+    <input 
+      type="date" 
+      formControlName="fechaHasta" 
+      class="mt-1 h-10 w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors" 
+    />
+  </div>
+
+  <div class="md:col-span-2 flex items-end gap-3">
+    <button 
+      type="submit" 
+      class="h-10 rounded-md bg-primary px-6 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-800 transition-colors"
+    >
+      Aplicar filtros
+    </button>
+    <button 
+      type="button" 
+      (click)="onReset()" 
+      class="h-10 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-6 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800 transition-colors"
+    >
+      Limpiar
+    </button>
+  </div>
+</form>

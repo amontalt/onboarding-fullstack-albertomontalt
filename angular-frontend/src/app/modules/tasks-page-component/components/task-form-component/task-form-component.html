@@ -1,0 +1,60 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm transition-colors duration-300">
+  <div>
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Título</label>
+    <input 
+      type="text" 
+      formControlName="titulo" 
+      class="mt-1 h-10 w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors" 
+      placeholder="Ej: Comprar el pan"
+    />
+    <p *ngIf="form.get('titulo')?.hasError('required') && form.get('titulo')?.touched" class="mt-1 text-xs font-medium text-red-500 dark:text-red-400">
+      El título es obligatorio.
+    </p>
+    <p *ngIf="form.get('titulo')?.hasError('minlength') && form.get('titulo')?.touched" class="mt-1 text-xs font-medium text-red-500 dark:text-red-400">
+      Mínimo 3 caracteres.
+    </p>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Descripción</label>
+    <textarea 
+      formControlName="descripcion" 
+      rows="3" 
+      class="mt-1 w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+      placeholder="Detalles de la tarea..."
+    ></textarea>
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div>
+      <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Estado inicial</label>
+      <select 
+        formControlName="estado" 
+        class="mt-1 h-10 w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+      >
+        <option value="pendiente">Pendiente</option>
+        <option value="en progreso">En progreso</option>
+        <option value="completada">Completada</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">Fecha límite (Opcional)</label>
+      <input 
+        type="date" 
+        formControlName="fechaLimite" 
+        class="mt-1 h-10 w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors" 
+      />
+    </div>
+  </div>
+
+  <div class="flex justify-end pt-2">
+    <button 
+      type="submit" 
+      [disabled]="form.invalid || isSubmitting" 
+      class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-white transition-colors hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:text-slate-500 dark:disabled:text-slate-400"
+    >
+      {{ isSubmitting ? 'Guardando...' : 'Crear Tarea' }}
+    </button>
+  </div>
+</form>
