@@ -1,6 +1,6 @@
 # Fullstack Task Manager - Alberto Montalt
 
-Este repositorio contiene mi proyecto final de Onboarding Fullstack, diseñado como base para mi TFG y Portfolio profesional. Es una aplicación robusta de gestión de tareas con arquitectura desacoplada.
+Este repositorio contiene mi proyecto final de Onboarding Fullstack, diseñado durante mis prácticas de empresa en CodeArts Solutions, utilizado como base para mi TFG y Portfolio profesional. Es una aplicación robusta de gestión de tareas con arquitectura desacoplada.
 
 ## 🛠️ Tecnologías Core
 - **Frontend:** Angular 17 con arquitectura de módulos y componentes reutilizables.
